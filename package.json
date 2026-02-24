@@ -4,7 +4,7 @@
   "publisher": "DmytroFedoriaka",
   "description": "Assists with solving Codeforces problems.",
   "repository": "https://github.com/fedimser/codeforces-helper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.109.0"
   },
@@ -28,11 +28,11 @@
     "keybindings": [
       {
         "command": "codeforcesHelper.compileAndRun",
-        "key": "f5"
+        "key": "ctrl+shift+f5"
       },
       {
         "command": "codeforcesHelper.submit",
-        "key": "f6"
+        "key": "ctrl+shift+f6"
       }
     ],
     "viewsContainers": {
