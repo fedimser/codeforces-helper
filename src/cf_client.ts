@@ -246,13 +246,4 @@ export class CodeforcesClient {
 		}
 		return new Contest(contest.contestId, contest.name, problems);
 	}
-
-	public async login(): Promise<void> {
-		const browser = await chromium.launch({ headless: false });
-		const page = await browser.newPage();
-		await page.goto("https://codeforces.com/enter", { waitUntil: "networkidle" });
-		//const html: string = await page.content();
-		//await browser.close();
-		//return html;
-	}
 }
