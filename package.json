@@ -4,10 +4,11 @@
   "publisher": "DmytroFedoriaka",
   "description": "Assists with solving Codeforces problems.",
   "repository": "https://github.com/fedimser/codeforces-helper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.109.0"
   },
+  "icon": "media/cf-logo.png",
   "categories": [
     "Other"
   ],
