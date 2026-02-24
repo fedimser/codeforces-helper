@@ -15,7 +15,7 @@ suite('CodeforcesHelper UI', function (this: Mocha.Suite) {
 	this.beforeAll(async () => {
 		tempDir = await mkdtemp(path.join(os.tmpdir(), "cfhelper-ui-test"));
 
-		const extension = vscode.extensions.getExtension('DmytroFedoriaka.codeforces-helper')!;
+		const extension = vscode.extensions.getExtension('DmytroFedoriaka.codeforces-helper-fedimser')!;
 		await extension.activate();
 		assert.equal(extension.isActive, true);
 		cfHelper = extension.exports;
