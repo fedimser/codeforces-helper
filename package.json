@@ -1,8 +1,10 @@
 {
   "name": "codeforces-helper",
-  "displayName": "codeforces-helper",
+  "displayName": "Codeforces Helper",
+  "publisher": "DmytroFedoriaka",
   "description": "Assists with solving Codeforces problems.",
-  "version": "0.0.1",
+  "repository": "https://github.com/fedimser/codeforces-helper",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.109.0"
   },
@@ -14,10 +16,90 @@
   "contributes": {
     "commands": [
       {
-        "command": "codeforces-helper.helloWorld",
-        "title": "Hello World"
+        "command": "codeforcesHelper.compileAndRun",
+        "title": "Codeforces Helper: Compile and Run"
+      },
+      {
+        "command": "codeforcesHelper.submit",
+        "title": "Codeforces Helper: Submit"
       }
-    ]
+    ],
+    "keybindings": [
+      {
+        "command": "codeforcesHelper.compileAndRun",
+        "key": "f5"
+      },
+      {
+        "command": "codeforcesHelper.submit",
+        "key": "f6"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codeforcesHelper",
+          "title": "Codeforces",
+          "icon": "media/cf-logo.png"
+        }
+      ]
+    },
+    "views": {
+      "codeforcesHelper": [
+        {
+          "id": "problemsView",
+          "name": "Problems",
+          "icon": "media/cf-logo.png",
+          "type": "webview"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Codeforces Helper",
+      "type": "object",
+      "properties": {
+        "codeforcesHelper.runTimeoutMs": {
+          "type": "number",
+          "description": "For how long (in milliseconds) to run a test case before it's considered timed out.",
+          "default": 2000,
+          "minimum": 1000,
+          "maximum": 60000
+        },
+        "codeforcesHelper.languageConfigs": {
+          "type": "array",
+          "description": "Configurations for programming languages used to compile and run solutions.\n\n Use $src in place of source and $out in place of resulting executable.",
+          "default": [
+            {
+              "name": "C++",
+              "extension": "cpp",
+              "compileCommand": "g++ $src -o $out",
+              "runCommand": "$out"
+            },
+            {
+              "name": "Rust",
+              "extension": "rs",
+              "compileCommand": "rustc $src -o $out",
+              "runCommand": "$out"
+            },
+            {
+              "name": "Python",
+              "extension": "py",
+              "compileCommand": "",
+              "runCommand": "python3 $src"
+            }
+          ]
+        },
+        "codeforcesHelper.newProblemPattern": {
+          "type": "string",
+          "markdownDescription": "If set, when you select a new problem, extension will automatically open this path (replacing $problemIndex with problem index, e.g. 'A') relative to workspace.\n\n Works only if workspace (a folder) is opened.\n\n If file does not exist, it will be created. New file may be populated from template if you specify `#codeforcesHelper.newProblemTemplatePath#`. \n\n Clear this if you do not want solution files to be automatically created.",
+          "default": "$problemIndex.cpp"
+        },
+        "codeforcesHelper.newProblemTemplatePath": {
+          "type": "string",
+          "description": "Path to template that should be used to create new file to start solving a problem.",
+          "default": ""
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -28,13 +110,18 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.109.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.54.0",
+    "@types/vscode": "^1.109.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "eslint": "^9.39.2",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.54.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "domhandler": "^5.0.3",
+    "playwright": "^1.58.2"
   }
 }

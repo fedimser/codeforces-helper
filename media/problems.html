@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 4px;
+            text-align: left;
+            vertical-align: top;
+            font-family: monospace;
+            position: relative;
+        }
+        .verdict-ok {
+            background-color: #00ff0030;
+        }
+        .verdict-fail {
+            background-color: #ff000030;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="divSelectContest">
+        <input id="inputContestId" placeholder="Enter contest id..." value=""></input>
+        <button id="btnLoadContest">Load</button>
+        <button id="btnLatest">Latest</button>
+    </div>
+    <div id="divProblemList"></div>
+    <hr>
+    <div id="divTestCases"></div>
+
+    <script src="problems.js"></script>
+
+</body>
+
+</html>

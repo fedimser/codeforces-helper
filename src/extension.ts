@@ -1,26 +1,41 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+import { CodeforcesHelper } from "./cf_helper";
+import { TestCasesFileSystem } from "./test_cases_file_system";
+
 export function activate(context: vscode.ExtensionContext) {
+	const cfHelper = new CodeforcesHelper(context);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider('problemsView', cfHelper)
+	);
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "codefores-helper" is now active!');
+	context.subscriptions.push(
+		vscode.commands.registerCommand('codeforcesHelper.compileAndRun', () => cfHelper.compileAndRun())
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand('codeforcesHelper.submit', () => cfHelper.submit(true))
+	);
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('codefores-helper.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from codefores-helper!');
-	});
+	context.subscriptions.push(
+		vscode.workspace.onDidChangeConfiguration(event => {
+			if (event.affectsConfiguration('codeforcesHelper')) {
+				cfHelper.config = vscode.workspace.getConfiguration('codeforcesHelper');
+			}
+		})
+	);
+	context.subscriptions.push(
+		vscode.window.onDidChangeActiveTextEditor(_ => { cfHelper.onActiveEditorChanged(); })
+	);
 
-	context.subscriptions.push(disposable);
+	const tcfs = new TestCasesFileSystem(cfHelper);
+	context.subscriptions.push(vscode.workspace.registerFileSystemProvider('tcfs', tcfs));
+	context.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider('readonly', tcfs));
+
+	return cfHelper;
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
+
+
+
+
